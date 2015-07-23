@@ -1,5 +1,6 @@
 package net.advws.myappportfolio;
 
+import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
@@ -10,6 +11,8 @@ import android.widget.Toast;
 import android.content.Context;
 
 public class MainActivity extends ActionBarActivity {
+
+    private Toast toast;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,22 +34,19 @@ public class MainActivity extends ActionBarActivity {
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
     public void sendToast(View view) {
+        Context context = getApplicationContext();
         final Button button = (Button) view;
 
-        Context context = getApplicationContext();
-        CharSequence text = "The will launch my " + button.getText() + " app!";
-        int duration = Toast.LENGTH_SHORT;
+        Resources res = getResources();
+        String text = String.format(res.getString(R.string.toast_message), button.getText());
 
-        Toast toast = Toast.makeText(context, text, duration);
+        if (toast != null) toast.cancel();
+        toast = Toast.makeText(context, text, Toast.LENGTH_LONG);
         toast.show();
+
     }
 }
